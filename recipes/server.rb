@@ -18,6 +18,11 @@ package "postgresql-#{node["postgresql"]["version"]}"
 # setup the data directory
 include_recipe "postgresql::data_directory"
 
+# setup the log directory if changed
+if node["postgresql"]["log_directory"] && node["postgresql"]["log_directory"] != "pg_log"
+  include_recipe "postgresql::log_directory" 
+end
+
 # add the configuration
 include_recipe "postgresql::configuration"
 
