@@ -5,3 +5,5 @@ vendor/bundle
 .DS_Store
 build/*
 tmp/
+.kitchen/
+.kitchen.local.yml
