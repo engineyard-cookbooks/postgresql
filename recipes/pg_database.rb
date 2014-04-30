@@ -3,9 +3,14 @@
 # Recipe:: pg_database
 #
 
+databases = Array(node["postgresql"]["databases"])
+extensions = databases.map { |db| db["extensions"] }.flatten.compact
+
+# include `contrib` recipe if there are any extensions to install
+include_recipe "postgresql::contrib" if extensions.any?
 
 # setup databases
-node["postgresql"]["databases"].each do |database|
+databases.each do |database|
   pg_database database["name"] do
     owner database["owner"]
     encoding database["encoding"]

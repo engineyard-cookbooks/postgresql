@@ -21,12 +21,13 @@ The default version is `9.3`.
 
 The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error:
 
-* Ubuntu
-* Debian 6
+* Ubuntu 12.04+
+* Debian 6+
 
 ### Cookbooks
 
 * [apt](http://community.opscode.com/cookbooks/apt)
+* [minitest-handler](http://community.opscode.com/cookbooks/minitest-handler) _(suggested, not required)_
 
 
 ## Recipes
@@ -43,7 +44,7 @@ The following platforms are supported by this cookbook, meaning that the recipes
 * `postgresql::libpq` - PostgreSQL C client library and header files for libpq5 (PostgreSQL library)
 * `postgresql::pg_database` - Internal recipe to manage specified databases
 * `postgresql::pg_user` - Internal recipe to manage specified users
-* `postgresql::postgis` - Geographic objects support for PostgreSQL 9.x
+* `postgresql::postgis` - Geographic objects support for PostgreSQL 9.x _(currently Ubuntu only)_
 * `postgresql::server` - Object-relational SQL database, version 9.x server
 * `postgresql::server_dev` - Development files for PostgreSQL server-side programming
 * `postgresql::service` - Internal recipe to declare the system service
@@ -99,9 +100,9 @@ Or add users via attributes:
 # create a database
 pg_database "mydb" do
   owner "myuser"
-  encoding "utf8"
+  encoding "UTF-8"
   template "template0"
-  locale "en_US.UTF8"
+  locale "en_US.UTF-8"
 end
 
 # install extensions to database
@@ -132,8 +133,8 @@ Or add the database via attributes:
       "name": "my_db",
       "owner": "dickeyxxx",
       "template": "template0",
-      "encoding": "utf8",
-      "locale": "en_US.UTF8",
+      "encoding": "UTF-8",
+      "locale": "en_US.UTF-8",
       "extensions": "hstore"
     }
   ]
@@ -646,6 +647,12 @@ Many thanks go to the following who have contributed to making this cookbook eve
     * conditionally override attributes in `postgresql.conf`
     * support for customizable apt sources
     * add ability to use an apt keyserver
+* **[@vrischmann](https://github.com/vrischmann)**
+    * uncomment `wal_writer_delay` attribute
+* **[@brainopia](https://github.com/brainopia)**
+    * support `encrypted_password` in the `pg_user` recipe
+* **[@tpitale](https://github.com/tpitale)**
+    * update example encoding/locales in README to fix error
 
 
 ## License
@@ -655,7 +662,3 @@ Many thanks go to the following who have contributed to making this cookbook eve
 * Freely distributable and licensed under the [MIT license](http://phlipper.mit-license.org/2012-2014/license.html).
 * Copyright (c) 2012-2014 Phil Cohen (github@phlippers.net) [![endorse](http://api.coderwall.com/phlipper/endorsecount.png)](http://coderwall.com/phlipper)  [![Gittip](http://img.shields.io/gittip/phlipper.png)](https://www.gittip.com/phlipper/)
 * http://phlippers.net/
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/phlipper/chef-postgresql/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
