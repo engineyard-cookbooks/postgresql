@@ -196,6 +196,14 @@ distribution:
 # order to re-compute the paths with the correct version number.
 default["postgresql"]["version"]                         = "9.3"
 
+# control how the postgres service is signaled when configuration files are
+# updated. by default the service is told to `:restart` (stop, start). if you
+# run high availability installation and do not want the service to restart via
+# chef you can change this to `:reload`. the caveat is that you will need to
+# manually restart the postgres server if you change a setting that requires
+# a full restart.
+default["postgresql"]["cfg_update_action"]               = :restart
+
 #----------------------------------------------------------------------------
 # APT Repository
 #----------------------------------------------------------------------------
@@ -203,7 +211,7 @@ default["postgresql"]["apt_distribution"]                = node["lsb"]["codename
 default["postgresql"]["apt_repository"]                  = "apt.postgresql.org"
 default["postgresql"]["apt_uri"]                         = "http://apt.postgresql.org/pub/repos/apt"
 default["postgresql"]["apt_components"]                  = ["main"]
-default["postgresql"]["apt_key"]                         = "http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc"
+default["postgresql"]["apt_key"]                         = "https://www.postgresql.org/media/keys/ACCC4CF8.asc"
 # You can set default["postgresql"]["apt_keyserver"] if you want to use a keyserver
 
 default["postgresql"]["environment_variables"]           = {}
@@ -214,6 +222,7 @@ default["postgresql"]["pg_ident"]                        = []
 default["postgresql"]["start"]                           = "auto"  # auto, manual, disabled
 
 default["postgresql"]["conf"]                            = {}
+default["postgresql"]["conf_custom"]                     = false  # if true, only use node["postgresql"]["conf"]
 default["postgresql"]["initdb_options"]                  = "--locale=en_US.UTF-8"
 
 #------------------------------------------------------------------------------
@@ -653,6 +662,15 @@ Many thanks go to the following who have contributed to making this cookbook eve
     * support `encrypted_password` in the `pg_user` recipe
 * **[@tpitale](https://github.com/tpitale)**
     * update example encoding/locales in README to fix error
+* **[@seamusabshere](https://github.com/seamusabshere)**
+    * uncomment various configuration settings
+    * uncomment more configuration settings
+* **[@RichardWigley](https://github.com/RichardWigley)**
+    * fix empty password causes exception
+* **[@phumpal](https://github.com/phumpal)**
+    * update `default["postgresql"]["apt_key"]` to new location
+* **[@mjallday](https://github.com/mjallday)**
+    * allow controlling how to restart postgres
 
 
 ## License
